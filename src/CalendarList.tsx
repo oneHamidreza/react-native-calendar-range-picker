@@ -1,14 +1,14 @@
-import React, { useMemo, useCallback } from "react";
+import React, {useMemo, useCallback} from "react";
 import moment from "moment";
-import { FlatList, View, ActivityIndicator } from "react-native";
+import {FlatList, View, ActivityIndicator} from "react-native";
 // components
 import Month from "./Month";
 // data
-import { getMonths } from "./utils/data";
+import {getMonths} from "./utils/data";
 // types
-import { Month_Type } from "./utils/data";
-import { LOCALE_TYPE } from "./utils/locale";
-import { Style } from "./index";
+import {Month_Type} from "./utils/data";
+import {LOCALE_TYPE} from "./utils/locale";
+import {Style} from "./index";
 
 interface Props {
   pastYearRange: number;
@@ -23,23 +23,25 @@ interface Props {
   isMonthFirst?: boolean;
   disabledBeforeToday?: boolean;
   disabledAfterToday?: boolean;
+  FlatListElement?: any;
 }
 
 const LAYOUT_HEIGHT = 370;
 const CalendarList = ({
-  pastYearRange,
-  futureYearRange,
-  initialNumToRender,
-  locale,
-  handlePress,
-  startDate,
-  endDate,
-  flatListProps,
-  isMonthFirst,
-  disabledBeforeToday,
-  disabledAfterToday,
-  style,
-}: Props) => {
+                        pastYearRange,
+                        futureYearRange,
+                        initialNumToRender,
+                        locale,
+                        handlePress,
+                        startDate,
+                        endDate,
+                        flatListProps,
+                        isMonthFirst,
+                        disabledBeforeToday,
+                        disabledAfterToday,
+                        FlatListElement,
+                        style,
+                      }: Props) => {
   const months: Month_Type[] = useMemo(
     () => getMonths(pastYearRange, futureYearRange),
     [pastYearRange, futureYearRange]
@@ -53,7 +55,7 @@ const CalendarList = ({
   }, []);
 
   const handleRenderItem = useCallback(
-    ({ item }) => (
+    ({item}) => (
       <View
         style={{
           height: LAYOUT_HEIGHT,
@@ -76,8 +78,10 @@ const CalendarList = ({
     [locale.today, startDate, endDate]
   );
 
+  const List = useMemo(() => FlatListElement ?? FlatList, [FlatListElement])
+
   return (
-    <View style={[{ position: "relative" }, style?.container]}>
+    <View style={[{position: "relative"}, style?.container]}>
       <View
         style={{
           top: 0,
@@ -89,9 +93,9 @@ const CalendarList = ({
           alignItems: "center",
         }}
       >
-        <ActivityIndicator />
+        <ActivityIndicator/>
       </View>
-      <FlatList
+      <List
         keyExtractor={(item: Month_Type) => item.id}
         data={months}
         renderItem={handleRenderItem}
