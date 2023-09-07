@@ -1,6 +1,7 @@
 import React, {useMemo, useCallback} from "react";
 import moment from "moment";
-import {FlatList, View, ActivityIndicator} from "react-native";
+import {View, ActivityIndicator} from "react-native";
+import {FlatList} from "react-native-gesture-handler";
 // components
 import Month from "./Month";
 // data
